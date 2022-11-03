@@ -17,24 +17,24 @@ def test():
     json["message"] = "Server running..."
     return jsonify(json)
 
-@app.route("/estudiantes",methods=['GET'])
+@app.route("/candidato",methods=['GET'])
 def getEstudiantes():
     json=miControladorCandidato.index()
     return jsonify(json)
 
-@app.route("/estudiantes",methods=['POST'])
+@app.route("/candidato",methods=['POST'])
 def crearEstudiante():
     data = request.get_json()
     json=miControladorCandidato.create(data)
     return jsonify(json)
 
-@app.route("/estudiantes/<string:id>",methods=['GET'])
+@app.route("/candidato/<string:id>",methods=['GET'])
 def getEstudiante(id):
     json=miControladorCandidato.show(id)
     print(json)
     return jsonify(json)
 
-@app.route("/estudiantes/<string:id>",methods=['PUT'])
+@app.route("/candidato/<string:id>",methods=['PUT'])
 def modificarEstudiante(id):
     data = request.get_json()
     json=miControladorCandidato.update(id,data)
@@ -43,6 +43,7 @@ def modificarEstudiante(id):
 @app.route("/estudiantes/<string:id>",methods=['DELETE'])
 def eliminarEstudiante(id):
     json=miControladorCandidato.delete(id)
+    return jsonify(json)
 
 def loadFileConfig():
     with open('config.json') as f:
