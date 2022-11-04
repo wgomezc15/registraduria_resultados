@@ -10,8 +10,9 @@ cors = CORS(app)
 
 from Controlador.ControladorCandidato import ControladorCandidato
 from Controlador.ControladorMesa import ControladorMesa
-miControladorCandidato=ControladorCandidato()
-miControladorMesa=ControladorMesa()
+
+miControladorCandidato = ControladorCandidato()
+miControladorMesa = ControladorMesa()
 
 
 @app.route("/", methods=['GET'])
@@ -20,40 +21,46 @@ def test():
     json["message"] = "Server running..."
     return jsonify(json)
 
-@app.route("/candidato",methods=['GET'])
-def getEstudiantes():
-    json=miControladorCandidato.index()
+
+@app.route("/candidato", methods=['GET'])
+def getCandidatos():
+    json = miControladorCandidato.index()
     return jsonify(json)
 
-@app.route("/candidato",methods=['POST'])
-def crearEstudiante():
+
+@app.route("/candidato", methods=['POST'])
+def crearCandidato():
     data = request.get_json()
-    json=miControladorCandidato.create(data)
+    json = miControladorCandidato.create(data)
     return jsonify(json)
 
-@app.route("/candidato/<string:id>",methods=['GET'])
-def getEstudiante(id):
-    json=miControladorCandidato.show(id)
+
+@app.route("/candidato/<string:id>", methods=['GET'])
+def getCandidato(id):
+    json = miControladorCandidato.show(id)
     print(json)
     return jsonify(json)
 
-@app.route("/candidato/<string:id>",methods=['PUT'])
-def modificarEstudiante(id):
+
+@app.route("/candidato/<string:id>", methods=['PUT'])
+def modificarCandidato(id):
     data = request.get_json()
-    json=miControladorCandidato.update(id,data)
+    json = miControladorCandidato.update(id, data)
     return jsonify(json)
 
-@app.route("/estudiantes/<string:id>",methods=['DELETE'])
-def eliminarEstudiante(id):
+@app.route("/candidato/<string:id>",methods=['DELETE'])
+def eliminarCandidato(id):
     json=miControladorCandidato.delete(id)
     return jsonify(json)
 
 """Implementacion metodo main para mesas"""
 
+
 @app.route("/mesas", methods=['GET'])
 def getMesas():
     json = miControladorMesa.index()
     return jsonify(json)
+
 
 @app.route("/mesas", methods=['POST'])
 def crearMesa():
@@ -61,10 +68,12 @@ def crearMesa():
     json = miControladorMesa.create(data)
     return jsonify(json)
 
+
 @app.route("/mesas/<string:id>", methods=['GET'])
 def getMesa(id):
     json = miControladorMesa.show(id)
     return jsonify(json)
+
 
 @app.route("/mesas/<string:id>", methods=['PUT'])
 def modificarMesa(id):
@@ -72,15 +81,18 @@ def modificarMesa(id):
     json = miControladorMesa.update(id, data)
     return jsonify(json)
 
+
 @app.route("/mesas/<string:id>", methods=['DELETE'])
 def eliminarMesa(id):
     json = miControladorMesa.delete(id)
     return jsonify(json)
 
+
 def loadFileConfig():
     with open('config.json') as f:
         data = json.load(f)
     return data
+
 
 if __name__ == '__main__':
     dataConfig = loadFileConfig()
