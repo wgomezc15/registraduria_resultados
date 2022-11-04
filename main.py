@@ -9,7 +9,10 @@ app = Flask(__name__)
 cors = CORS(app)
 
 from Controlador.ControladorCandidato import ControladorCandidato
+from Controlador.ControladorMesa import ControladorMesa
 miControladorCandidato=ControladorCandidato()
+miControladorMesa=ControladorMesa()
+
 
 @app.route("/", methods=['GET'])
 def test():
@@ -43,6 +46,35 @@ def modificarEstudiante(id):
 @app.route("/estudiantes/<string:id>",methods=['DELETE'])
 def eliminarEstudiante(id):
     json=miControladorCandidato.delete(id)
+    return jsonify(json)
+
+"""Implementacion metodo main para mesas"""
+
+@app.route("/mesas", methods=['GET'])
+def getMesas():
+    json = miControladorMesa.index()
+    return jsonify(json)
+
+@app.route("/mesas", methods=['POST'])
+def crearMesa():
+    data = request.get_json()
+    json = miControladorMesa.create(data)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=['GET'])
+def getMesa(id):
+    json = miControladorMesa.show(id)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=['PUT'])
+def modificarMesa(id):
+    data = request.get_json()
+    json = miControladorMesa.update(id, data)
+    return jsonify(json)
+
+@app.route("/mesas/<string:id>", methods=['DELETE'])
+def eliminarMesa(id):
+    json = miControladorMesa.delete(id)
     return jsonify(json)
 
 def loadFileConfig():
