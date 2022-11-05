@@ -142,17 +142,17 @@ def getResultado(id):
     return jsonify(json)
 
 
-@app.route("/resultados/candidato/<string:id_candidato>/mesa/<string:id_mesa>", methods=['POST'])
-def crearResultado(id_candidato, id_mesa):
+@app.route("/resultados/partido/<string:id_partido>/candidato/<string:id_candidato>/mesa/<string:id_mesa>", methods=['POST'])
+def crearResultado(id_partido,id_candidato, id_mesa):
     data = request.get_json()
-    json = miControladorResultado.create(data, id_candidato, id_mesa)
+    json = miControladorResultado.create(data,id_partido, id_candidato, id_mesa)
     return jsonify(json)
 
 
-@app.route("/resultados/<string:id_resultado>/candidato/<string:id_candidato>/mesa/<string:id_mesa>", methods=['PUT'])
-def modificarResultado(id_resultado, id_candidato, id_mesa):
+@app.route("/resultados/<string:id_resultado>/partido/<string:id_partido>/candidato/<string:id_candidato>/mesa/<string:id_mesa>", methods=['PUT'])
+def modificarResultado(id_resultado,id_partido, id_candidato, id_mesa):
     data = request.get_json()
-    json = miControladorResultado.update(id_resultado, data, id_candidato, id_mesa)
+    json = miControladorResultado.update(id_resultado, data,id_partido, id_candidato, id_mesa)
     return jsonify(json)
 
 

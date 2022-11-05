@@ -1,24 +1,29 @@
 from Modelo.Resultado import Resultado
 from Modelo.Candidato import Candidato
+from Modelo.Partido import Partido
 from Modelo.Mesa import Mesa
 from Repositorio.RepositorioResultado import RepositorioResultado
 from Repositorio.RepositorioCandidato import RepositorioCandidato
 from Repositorio.RepositorioMesa import RepositorioMesa
+from Repositorio.RepositorioPartido import RepositorioPartido
 class ControladorResultado():
 
     def __init__(self):
         self.repositorioResultado = RepositorioResultado()
         self.repositorioCandidato = RepositorioCandidato()
         self.repositorioMesa = RepositorioMesa()
+        self.repositorioPartido = RepositorioPartido()
     def index(self):
         return self.repositorioResultado.findAll()
     """
     Asignacion candidato y mesa a resultado
     """
-    def create(self,infoResultado,id_candidato,id_mesa):
+    def create(self,infoResultado,id_partido,id_candidato,id_mesa):
         nuevoResultado=Resultado(infoResultado)
+        elPartido = Partido(self.repositorioPartido.findById(id_partido))
         elCandidato=Candidato(self.repositorioCandidato.findById(id_candidato))
         laMesa=Mesa(self.repositorioMesa.findById(id_mesa))
+        nuevoResultado.partido = elPartido
         nuevoResultado.candidato=elCandidato
         nuevoResultado.mesa=laMesa
         return self.repositorioResultado.save(nuevoResultado)
@@ -28,13 +33,13 @@ class ControladorResultado():
     """
     Modificación de resultado (candidato y mesa)
     """
-    def update(self,id,infoResultado,id_candidato,id_mesa):
+    def update(self,id,infoResultado,id_partido,id_candidato,id_mesa):
         elResultado=Resultado(self.repositorioResultado.findById(id))
-        elResultado.año=infoResultado["año"]
-        elResultado.numero_mesa = infoResultado["numero_mesa"]
-        elResultado.id_partido=infoResultado["id_partido"]
+        elResultado.cant_votos=infoResultado["cant_votos"]
+        elPartido = Partido(self.repositorioPartido.findById(id_partido))
         elCandidato = Candidato(self.repositorioCandidato.findById(id_candidato))
         laMesa = Mesa(self.repositorioMesa.findById(id_mesa))
+        elResultado.partido = elPartido
         elResultado.candidato = elCandidato
         elResultado.mesa = laMesa
         return self.repositorioResultado.save(elResultado)
